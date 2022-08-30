@@ -16,7 +16,7 @@ import (
 	"github.com/alendavid/go-draw/packages/actions"
 )
 
-func Run() error {
+func UI() error {
 	myApp := app.New()
 	myWindow := myApp.NewWindow("Canvas")
 
