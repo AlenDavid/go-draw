@@ -17,9 +17,13 @@ func Menu(app fyne.App) fyne.CanvasObject {
 	box := container.NewAdaptiveGrid(4)
 
 	imageContainer := container.NewWithoutLayout()
-	imageCanvas := canvas.NewText("Open an image first", color.White)
 
-	imageContainer.Add(imageCanvas)
+	fmt.Println(box.Size(), imageContainer.Size())
+
+	// imageCanvas := canvas.NewImageFromFile("./assets/lena-255-255.jpeg")
+	textCanvas := canvas.NewText("Open an image", color.White)
+
+	imageContainer.Add(textCanvas)
 
 	box.Add(widget.NewButtonWithIcon("Open file", theme.FileImageIcon(), func() {
 		window := app.Driver().AllWindows()[0]
@@ -36,16 +40,17 @@ func Menu(app fyne.App) fyne.CanvasObject {
 			imageContainer.Remove(imageContainer.Objects[0])
 
 			img2, _, _ := image.Decode(uc)
-			newImageCanvas := canvas.NewImageFromImage(img2)
-			newImageCanvas.Resize(fyne.NewSize(255, 255))
 
-			imageContainer.Add(newImageCanvas)
+			newImageCanvas := canvas.NewImageFromImage(img2)
+			newImageCanvas.Resize(fyne.NewSize(float32(img2.Bounds().Size().X), float32(img2.Bounds().Size().Y)))
+
 			imageContainer.Refresh()
+			imageContainer.Add(newImageCanvas)
 
 		}, window).Show()
 	}))
 
-	box.Add(imageCanvas)
+	box.Add(imageContainer)
 
 	return box
 }
