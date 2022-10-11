@@ -7,11 +7,13 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	"github.com/alendavid/go-draw/packages/actions"
 	"github.com/alendavid/go-draw/packages/storage"
+	ui "github.com/alendavid/go-draw/packages/ui/actions"
 )
 
 func Functions(storage storage.Storage) fyne.CanvasObject {
-	box := container.NewAdaptiveGrid(4)
+	box := container.NewGridWithColumns(2)
 
 	_, img := storage.GetWorkingImage()
 
@@ -27,7 +29,17 @@ func Functions(storage storage.Storage) fyne.CanvasObject {
 	imageCanvas.Resize(fyne.NewSize(float32(img.Bounds().Size().X), float32(img.Bounds().Size().Y)))
 
 	imageContainer.Add(imageCanvas)
+
 	box.Add(imageContainer)
+	box.Add(ui.GrayScale(storage, func() {
+		box.Remove(imageCanvas)
+		_, img := storage.GetWorkingImage()
+
+		imageCanvas := canvas.NewImageFromImage(actions.GrayScale(img))
+		imageCanvas.Resize(fyne.NewSize(float32(img.Bounds().Size().X), float32(img.Bounds().Size().Y)))
+
+		imageContainer.Add(imageCanvas)
+	}))
 
 	fmt.Println("Functions is loaded with image bounds ", img.Bounds())
 
