@@ -32,7 +32,9 @@ func Functions(storage storage.Storage) fyne.CanvasObject {
 
 	imageContainer.Add(imageCanvas)
 
-	box.Add(ui.GrayScale(storage, func() {
+	list := container.NewVBox()
+
+	list.Add(ui.GrayScale(storage, func() {
 		box.Remove(imageCanvas)
 		_, img := storage.GetWorkingImage()
 
@@ -41,6 +43,20 @@ func Functions(storage storage.Storage) fyne.CanvasObject {
 
 		imageContainer.Add(imageCanvas)
 	}))
+
+	list.Add(ui.Brightness(storage, func() {
+		box.Remove(imageCanvas)
+		_, img := storage.GetWorkingImage()
+
+		imageCanvas := canvas.NewImageFromImage(actions.GrayScale(img))
+		imageCanvas.Resize(fyne.NewSize(float32(img.Bounds().Size().X), float32(img.Bounds().Size().Y)))
+
+		imageContainer.Add(imageCanvas)
+	}))
+
+	scroll := container.NewVScroll(list)
+
+	box.Add(scroll)
 
 	box.Add(imageContainer)
 
