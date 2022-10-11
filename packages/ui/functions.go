@@ -13,7 +13,9 @@ import (
 )
 
 func Functions(storage storage.Storage) fyne.CanvasObject {
-	box := container.NewGridWithColumns(2)
+	box := container.NewAdaptiveGrid(4)
+
+	fmt.Println("box layout", box.Layout)
 
 	_, img := storage.GetWorkingImage()
 
@@ -30,7 +32,6 @@ func Functions(storage storage.Storage) fyne.CanvasObject {
 
 	imageContainer.Add(imageCanvas)
 
-	box.Add(imageContainer)
 	box.Add(ui.GrayScale(storage, func() {
 		box.Remove(imageCanvas)
 		_, img := storage.GetWorkingImage()
@@ -40,6 +41,8 @@ func Functions(storage storage.Storage) fyne.CanvasObject {
 
 		imageContainer.Add(imageCanvas)
 	}))
+
+	box.Add(imageContainer)
 
 	fmt.Println("Functions is loaded with image bounds ", img.Bounds())
 
