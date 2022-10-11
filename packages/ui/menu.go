@@ -11,14 +11,13 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
+	"github.com/alendavid/go-draw/packages/storage"
 )
 
-func Menu(app fyne.App) fyne.CanvasObject {
+func Menu(app fyne.App, storage storage.Storage) fyne.CanvasObject {
 	box := container.NewAdaptiveGrid(4)
 
 	imageContainer := container.NewWithoutLayout()
-
-	fmt.Println(box.Size(), imageContainer.Size())
 
 	// imageCanvas := canvas.NewImageFromFile("./assets/lena-255-255.jpeg")
 	textCanvas := canvas.NewText("Open an image", color.White)
@@ -31,7 +30,8 @@ func Menu(app fyne.App) fyne.CanvasObject {
 		window.Show()
 
 		dialog.NewFileOpen(func(uc fyne.URIReadCloser, err error) {
-			fmt.Println("dialog done with interactions")
+			fmt.Println("Dialog done with interactions.")
+
 			if err != nil || uc == nil {
 				fmt.Println(err, uc)
 				return
@@ -40,6 +40,7 @@ func Menu(app fyne.App) fyne.CanvasObject {
 			imageContainer.Remove(imageContainer.Objects[0])
 
 			img2, _, _ := image.Decode(uc)
+			storage.SetImage(img2)
 
 			newImageCanvas := canvas.NewImageFromImage(img2)
 			newImageCanvas.Resize(fyne.NewSize(float32(img2.Bounds().Size().X), float32(img2.Bounds().Size().Y)))
@@ -51,6 +52,8 @@ func Menu(app fyne.App) fyne.CanvasObject {
 	}))
 
 	box.Add(imageContainer)
+
+	fmt.Println("Menu is loaded.")
 
 	return box
 }
