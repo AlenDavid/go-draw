@@ -14,7 +14,7 @@ import (
 	"github.com/alendavid/go-draw/packages/storage"
 )
 
-func Menu(app fyne.App, storage storage.Storage) fyne.CanvasObject {
+func Menu(app fyne.App, storage storage.Storage, rebuild func()) fyne.CanvasObject {
 	box := container.NewAdaptiveGrid(4)
 
 	imageContainer := container.NewWithoutLayout()
@@ -46,6 +46,7 @@ func Menu(app fyne.App, storage storage.Storage) fyne.CanvasObject {
 			newImageCanvas.Resize(fyne.NewSize(float32(img2.Bounds().Size().X), float32(img2.Bounds().Size().Y)))
 
 			imageContainer.Refresh()
+			rebuild()
 			imageContainer.Add(newImageCanvas)
 
 		}, window).Show()
