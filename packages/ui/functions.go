@@ -48,7 +48,7 @@ func Functions(storage storage.Storage) fyne.CanvasObject {
 		box.Remove(imageCanvas)
 		_, img := storage.GetWorkingImage()
 
-		imageCanvas := canvas.NewImageFromImage(actions.GrayScale(img))
+		imageCanvas := canvas.NewImageFromImage(actions.Brightness(img, 10))
 		imageCanvas.Resize(fyne.NewSize(float32(img.Bounds().Size().X), float32(img.Bounds().Size().Y)))
 
 		imageContainer.Add(imageCanvas)
