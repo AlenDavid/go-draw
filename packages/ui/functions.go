@@ -43,6 +43,7 @@ func Functions(storage storage.Storage) fyne.CanvasObject {
 		imageContainer.Add(imageCanvas)
 	}
 
+	list.Add(ui.Translation(storage, onClick))
 	list.Add(ui.GrayScale(storage, onClick))
 	list.Add(ui.Brightness(storage, onClick))
 	list.Add(ui.Contrast(storage, onClick))
