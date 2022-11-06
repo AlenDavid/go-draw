@@ -11,7 +11,7 @@ import (
 	ui "github.com/alendavid/go-draw/packages/ui/actions"
 )
 
-func Functions(storage storage.Storage) fyne.CanvasObject {
+func Functions(storage storage.Storage, rebuild func()) fyne.CanvasObject {
 	box := container.NewAdaptiveGrid(4)
 
 	fmt.Println("box layout", box.Layout)
@@ -42,6 +42,7 @@ func Functions(storage storage.Storage) fyne.CanvasObject {
 		imageContainer.Resize(fyne.NewSize(float32(img.Bounds().Size().X), float32(img.Bounds().Size().Y)))
 
 		imageContainer.Add(imageCanvas)
+		// rebuild()
 	}
 
 	list.Add(ui.Translation(storage, onClick))

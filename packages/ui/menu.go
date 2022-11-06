@@ -15,10 +15,19 @@ func Menu(app fyne.App, storage storage.Storage, rebuild func()) fyne.CanvasObje
 	box := container.NewAdaptiveGrid(4)
 
 	imageContainer := container.NewWithoutLayout()
-
 	textCanvas := canvas.NewText("Open an image", color.White)
 
-	imageContainer.Add(textCanvas)
+	err, img := storage.GetWorkingImage()
+
+	if err == nil && img != nil {
+		imageCanvas := canvas.NewImageFromImage(img)
+		size := img.Bounds().Size()
+
+		imageCanvas.Resize(fyne.NewSize(float32(size.X), float32(size.Y)))
+		imageContainer.Add(imageCanvas)
+	} else {
+		imageContainer.Add(textCanvas)
+	}
 
 	openFileButton := buttons.OpenFile(app, imageContainer, storage, rebuild)
 	saveFileButton := buttons.SaveFile(app, imageContainer, storage, rebuild)

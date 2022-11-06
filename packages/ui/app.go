@@ -17,20 +17,26 @@ func Run() error {
 	window := app.NewWindow("Go Draw")
 	tabs := container.NewAppTabs()
 
-	functions := container.NewTabItem("Functions", Functions(storage))
+	rebuild := func() {}
 
-	rebuild := func() {
+	var menu, functions, about *container.TabItem
+
+	rebuild = func() {
 		fmt.Println("Rebuild is called.")
+		tabs.Remove(menu)
 		tabs.Remove(functions)
+		tabs.Remove(about)
 
-		functions = container.NewTabItem("Functions", Functions(storage))
+		menu = container.NewTabItemWithIcon("Menu", theme.MenuIcon(), Menu(app, storage, rebuild))
+		functions = container.NewTabItem("Functions", Functions(storage, rebuild))
+		about = container.NewTabItemWithIcon("About", theme.InfoIcon(), About())
+
+		tabs.Append(menu)
 		tabs.Append(functions)
+		tabs.Append(about)
 	}
 
-	tabs.Append(container.NewTabItemWithIcon("Menu", theme.MenuIcon(), Menu(app, storage, rebuild)))
-	tabs.Append(functions)
-
-	tabs.Append(container.NewTabItemWithIcon("About", theme.InfoIcon(), About()))
+	rebuild()
 
 	tabs.SetTabLocation(container.TabLocationTop)
 
