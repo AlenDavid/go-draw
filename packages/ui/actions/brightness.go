@@ -21,6 +21,6 @@ func Brightness(storage storage.Storage, onClick func()) fyne.CanvasObject {
 		storage.SetImage(result)
 		onClick()
 
-		fmt.Println("Done with GrayScale button.")
+		fmt.Println("Done with Brightness button.")
 	})
 }
