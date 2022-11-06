@@ -30,6 +30,8 @@ func Run() error {
 	tabs.Append(container.NewTabItemWithIcon("Menu", theme.MenuIcon(), Menu(app, storage, rebuild)))
 	tabs.Append(functions)
 
+	tabs.Append(container.NewTabItemWithIcon("About", theme.InfoIcon(), About()))
+
 	tabs.SetTabLocation(container.TabLocationTop)
 
 	window.SetContent(tabs)
