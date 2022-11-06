@@ -5,7 +5,7 @@ import (
 	"image/color"
 )
 
-func calc(a uint8, b int8) uint8 {
+func calcBrightness(a uint8, b int8) uint8 {
 	// for a = 250 and b = 10, we must return 255
 	// for a = 50 and b = 10, we must return 60
 	if b >= 0 {
@@ -45,7 +45,9 @@ func Brightness(img image.Image, B int8) image.Image {
 			r, g, b, a := img.At(i, j).RGBA()
 
 			// by dividing with 257 and transforming to uint8, we get the expected 0-255 value we need
-			var r1, g1, b1 uint8 = calc(uint8(r/257), B), calc(uint8(g/257), B), calc(uint8(b/257), B)
+			var r1, g1, b1 uint8 = calcBrightness(uint8(r/257), B),
+				calcBrightness(uint8(g/257), B),
+				calcBrightness(uint8(b/257), B)
 
 			c := color.RGBA{r1, g1, b1, uint8(a)}
 
