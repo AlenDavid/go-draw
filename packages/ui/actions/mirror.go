@@ -18,6 +18,8 @@ func Mirroring(storage storage.Storage, onClick func()) fyne.CanvasObject {
 		direction = actions.MirrorDirection(s)
 	})
 
+	radio.Selected = string(direction)
+
 	button := widget.NewButton("Apply mirror", func() {
 		err, workingImage := storage.GetWorkingImage()
 
