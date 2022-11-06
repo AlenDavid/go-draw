@@ -7,7 +7,6 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-	"github.com/alendavid/go-draw/packages/actions"
 	"github.com/alendavid/go-draw/packages/storage"
 	ui "github.com/alendavid/go-draw/packages/ui/actions"
 )
@@ -34,30 +33,23 @@ func Functions(storage storage.Storage) fyne.CanvasObject {
 
 	list := container.NewVBox()
 
-	list.Add(ui.GrayScale(storage, func() {
+	onClick := func() {
 		box.Remove(imageCanvas)
 		_, img := storage.GetWorkingImage()
 
-		imageCanvas := canvas.NewImageFromImage(actions.GrayScale(img))
+		imageCanvas := canvas.NewImageFromImage(img)
 		imageCanvas.Resize(fyne.NewSize(float32(img.Bounds().Size().X), float32(img.Bounds().Size().Y)))
 
 		imageContainer.Add(imageCanvas)
-	}))
+	}
 
-	list.Add(ui.Brightness(storage, func() {
-		box.Remove(imageCanvas)
-		_, img := storage.GetWorkingImage()
-
-		imageCanvas := canvas.NewImageFromImage(actions.Brightness(img, 10))
-		imageCanvas.Resize(fyne.NewSize(float32(img.Bounds().Size().X), float32(img.Bounds().Size().Y)))
-
-		imageContainer.Add(imageCanvas)
-	}))
+	list.Add(ui.GrayScale(storage, onClick))
+	list.Add(ui.Brightness(storage, onClick))
+	list.Add(ui.Contrast(storage, onClick))
 
 	scroll := container.NewVScroll(list)
 
 	box.Add(scroll)
-
 	box.Add(imageContainer)
 
 	fmt.Println("Functions is loaded with image bounds ", img.Bounds())
