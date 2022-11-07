@@ -32,8 +32,6 @@ func uint8MinMax(i int) uint8 {
 // 1, c, 1
 // _, 1, _
 func maxCross(img image.Image, x, y int, factor int) (c color.Color) {
-	_, _, _, _ = img.At(x, y).RGBA()
-
 	var r, g, b, a int
 	var pixesAt [][]int = make([][]int, 0)
 
@@ -72,7 +70,51 @@ func maxCross(img image.Image, x, y int, factor int) (c color.Color) {
 	}
 }
 
-func applyCross(img image.Image, factor int) image.Image {
+// get this pixels from around the image
+// c = (x, y)
+// 1, 1, 1
+// 1, c, 1
+// 1, 1, 1
+func maxRound(img image.Image, x, y, factor int) (c color.Color) {
+	var r, g, b, a int
+	var pixesAt [][]int = make([][]int, 0)
+
+	pixesAt = append(pixesAt,
+		[]int{x - 1, y - 1}, []int{x, y - 1}, []int{x + 1, y - 1},
+		[]int{x - 1, y}, []int{x, y}, []int{x + 1, y},
+		[]int{x - 1, y + 1}, []int{x, y + 1}, []int{x + 1, y + 1},
+	)
+
+	for _, p := range pixesAt {
+		fr, fg, fb, fa := img.At(p[0], p[1]).RGBA()
+		fri, fgi, fbi, fai := int(fr/257.0), int(fg/257.0), int(fb/257.0), int(fa/257.0)
+
+		if r < fri {
+			r = fri
+		}
+
+		if g < fgi {
+			g = fgi
+		}
+
+		if b < fbi {
+			b = fbi
+		}
+
+		if a < fai {
+			a = fai
+		}
+	}
+
+	return color.RGBA{
+		uint8MinMax(r + factor),
+		uint8MinMax(g + factor),
+		uint8MinMax(b + factor),
+		uint8MinMax(a + factor),
+	}
+}
+
+func applyStructure(img image.Image, factor int, fn func(image.Image, int, int, int) color.Color) image.Image {
 	size := img.Bounds().Size()
 	m := image.NewRGBA(img.Bounds())
 
@@ -90,11 +132,11 @@ func Dilatation(img image.Image, dt DilatationType, factor int) image.Image {
 	switch dt {
 	case CROSS:
 		{
-			return applyCross(img, factor)
+			return applyStructure(img, factor, maxCross)
 		}
 	case ROUND:
 		{
-			fmt.Println("not implemented")
+			return applyStructure(img, factor, maxRound)
 		}
 	case DIAGONALS:
 		{
