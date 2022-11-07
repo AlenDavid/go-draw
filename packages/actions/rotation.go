@@ -9,7 +9,7 @@ import (
 // 0 >= degree < 360
 // img = [100, 100]
 func Rotation(img image.Image, degree float64) image.Image {
-	var piDegree float64 = math.Pi * (30.0 / 180.0)
+	var piDegree float64 = math.Pi * (degree / 180.0)
 	var cos, sin float64 = math.Cos(piDegree), math.Sin(piDegree)
 	size := img.Bounds().Size()
 
