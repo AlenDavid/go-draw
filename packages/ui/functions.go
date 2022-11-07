@@ -51,6 +51,7 @@ func Functions(storage storage.Storage, rebuild func()) fyne.CanvasObject {
 	list.Add(ui.Contrast(storage, onClick))
 	list.Add(ui.Scale(storage, onClick))
 	list.Add(ui.Mirroring(storage, onClick))
+	list.Add(ui.Rotation(storage, onClick))
 
 	scroll := container.NewVScroll(list)
 
