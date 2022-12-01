@@ -17,8 +17,8 @@ func HighPassRoberts(img image.Image) image.Image {
 	xKernel := [][]int{{0, 0, 0}, {0, -1, 0}, {0, 0, 1}}
 	yKernel := [][]int{{0, 0, 0}, {0, 0, -1}, {0, 1, 0}}
 
-	for i := 0; i < bounds.Dx(); i += 1 {
-		for j := 0; j < bounds.Dy(); j += 1 {
+	for i := 1; i < bounds.Dx()-1; i += 1 {
+		for j := 1; j < bounds.Dy()-1; j += 1 {
 			var r uint8
 			var gx, gy int = 0, 0
 
@@ -51,8 +51,8 @@ func HighPassSobel(img image.Image) image.Image {
 	xKernel := [][]int{{1, 0, -1}, {2, 0, -2}, {1, 0, -1}}
 	yKernel := [][]int{{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}}
 
-	for i := 0; i < bounds.Dx(); i += 1 {
-		for j := 0; j < bounds.Dy(); j += 1 {
+	for i := 1; i < bounds.Dx()-1; i += 1 {
+		for j := 1; j < bounds.Dy()-1; j += 1 {
 			var r uint8
 			var gx, gy int = 0, 0
 
