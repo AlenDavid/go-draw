@@ -10,10 +10,6 @@ import (
 	"github.com/alendavid/go-draw/packages/storage"
 )
 
-const (
-	thresholdLimit = 3
-)
-
 func LowPassFilter(storage storage.Storage, onClick func()) fyne.CanvasObject {
 	box := container.NewVBox()
 
