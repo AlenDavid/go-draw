@@ -56,6 +56,7 @@ func Functions(storage storage.Storage, rebuild func()) fyne.CanvasObject {
 	list.Add(ui.Erosion(storage, onClick))
 	list.Add(ui.Opening(storage, onClick))
 	list.Add(ui.Closing(storage, onClick))
+	list.Add(ui.LowPassFilter(storage, onClick))
 
 	scroll := container.NewVScroll(list)
 
