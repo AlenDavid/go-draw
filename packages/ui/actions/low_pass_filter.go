@@ -45,8 +45,23 @@ func LowPassFilter(storage storage.Storage, onClick func()) fyne.CanvasObject {
 		fmt.Println("Done with Apply Low Pass Filter (Mode) button.")
 	})
 
+	buttonMedian := widget.NewButton("Apply Low Pass Filter (Median)", func() {
+		err, workingImage := storage.GetWorkingImage()
+
+		if err != nil {
+			panic(err)
+		}
+
+		result := actions.LowPassFilterMedian(workingImage)
+		storage.SetImage(result)
+		onClick()
+
+		fmt.Println("Done with Apply Low Pass Filter (Median) button.")
+	})
+
 	box.Add(buttonAverage)
 	box.Add(buttonMode)
+	box.Add(buttonMedian)
 
 	return box
 }
