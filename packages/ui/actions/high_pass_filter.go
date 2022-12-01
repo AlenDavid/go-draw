@@ -41,18 +41,18 @@ func HighPassFilter(storage storage.Storage, onClick func()) fyne.CanvasObject {
 		fmt.Println("Done with Apply High Pass Filter Sobel button.")
 	})
 
-	button3 := widget.NewButton("Apply High Pass Filter (3)", func() {
+	button3 := widget.NewButton("Apply High Pass Filter Marr and Hildreth", func() {
 		err, workingImage := storage.GetWorkingImage()
 
 		if err != nil {
 			panic(err)
 		}
 
-		result := actions.HighPassRoberts(workingImage)
+		result := actions.HighPassMarrHildreth(workingImage)
 		storage.SetImage(result)
 		onClick()
 
-		fmt.Println("Done with Apply High Pass Filter (3) button.")
+		fmt.Println("Done with Apply High Pass Filter Marr and Hildreth button.")
 	})
 
 	box.Add(button1)
